@@ -1,0 +1,55 @@
+.main-footer-card {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 54px;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.footer-sub-card {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 31px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 30px;
+
+}
+
+.button-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+footer {
+    background: linear-gradient(59deg, #d849a2, #7b20c5);
+    color: white;
+
+}
+
+footer a {
+    color: #fff;
+    font-size: 14px;
+    transition-duration: 0.2s;
+}
+
+footer a:hover {
+    color: #FA944B;
+    text-decoration: none;
+}
+
+.copy {
+    font-size: 12px;
+    padding: 30px;
+    margin-top: 10px;
+    border-top: 1px solid #FFFFFF;
+}
+
+.footer-middle {
+    padding-top: 2.7em;
+    color: white;
+}
