@@ -28,8 +28,7 @@ class Header extends Component {
         const { isAuth, user  } = this.props;
         let userProfilePic = default_logo;
         if  ((isAuth && Object.keys(user).length)){
-            let usr = user;
-            if(notJson(usr)) usr = JSON.parse(user);
+            let usr = notJson(usr) ? JSON.parse(user) : user;
             if(usr.hasOwnProperty("picture")) userProfilePic = usr.picture.data.url
         }
         return (
