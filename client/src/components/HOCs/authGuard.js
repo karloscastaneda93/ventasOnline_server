@@ -2,34 +2,45 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
+import store from "../../store";
 
 export default (OriginalComponent) => {
-  class MixedComponent extends Component {
+	class MixedComponent extends Component {
 
-    checkAuth() {
-      if (!this.props.isAuth){
-        if(this.props.location.pathname !== "/registro") this.props.history.push('/iniciar-sesion');
-      }
-      else{
-        if(this.props.location.pathname === "/registro" || this.props.location.pathname === "/iniciar-sesion") this.props.history.push('/');
-      }
-    }
+		constructor(props) {
+			super(props);
+			store.subscribe(this.bindStore.bind(this));
+		}
 
-    async componentWillMount(){
-      await this.props.checkAuth();
-      this.checkAuth();
-    }
+		bindStore() {
+			const { auth } = store.getState();
+			if (auth.isSignOut) this.props.history.push('/iniciar-sesion');
+		}
 
-    render() {
-      return <OriginalComponent {...this.props} />;
-    }
-  }
+		checkAuth() {
+			if (!this.props.isAuth) {
+				this.props.history.push('/iniciar-sesion');
+			}else {
+				if (this.props.location.pathname === '/iniciar-sesion') this.props.history.push('/');
+			}
+		}
 
-  function mapStateToProps(state) {
-    return {
-      isAuth: state.auth.isAuthenticated
-    }
-  }
+		async componentWillMount() {
+			await this.props.checkAuth();
+			this.checkAuth();
+		}
 
-  return connect(mapStateToProps,actions)(MixedComponent);
+		render() {
+			return <OriginalComponent {...this.props} />;
+		}
+	}
+
+	function mapStateToProps(state) {
+		return {
+			isAuth: state.auth.isAuthenticated,
+			isSignOut: state.auth.isSignOut
+		}
+	}
+
+	return connect(mapStateToProps, actions)(MixedComponent);
 };

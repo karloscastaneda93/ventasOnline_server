@@ -5,8 +5,8 @@ import authReducer from './auth';
 import homeReducer from './homeReducer';
 
 export default combineReducers({
-  form: formReducer,
-  auth: authReducer,
-  prods: prodsReducer,
-  dash: homeReducer
+	form: formReducer,
+	auth: authReducer,
+	prods: prodsReducer,
+	dash: homeReducer
 });

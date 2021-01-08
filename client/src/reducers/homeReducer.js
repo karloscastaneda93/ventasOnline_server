@@ -5,7 +5,7 @@ import {
   } from '../actions/types';
   
   const DEFAULT_STATE = {
-    secret: '',
+    user: {},
     methods: []
   }
   
@@ -16,7 +16,7 @@ import {
       case AUTH_UNLINK_FACEBOOK:
         return { ...state, methods: action.payload.methods }
       case DASHBOARD_GET_DATA:
-        return { ...state, secret: action.payload.secret, methods: action.payload.methods }
+        return { ...state, user: action.payload.user }
       default:
         return state
     }

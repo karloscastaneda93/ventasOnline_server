@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import {Navbar, Nav, Image} from 'react-bootstrap';
+import { Navbar, Nav, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
+
+import LogOutButton from '../LogOutButton/LogOutButton';
 
 import "./Header.css";
 
@@ -24,52 +26,53 @@ class Header extends Component {
         await this.props.checkAuth();
     }
 
+    signOutHandler() {
+        this.signOut();
+    }
+
     render() {
-        const { isAuth, user  } = this.props;
+        const { isAuth, cookieUser, loggedInUser } = this.props;
+        console.log(loggedInUser);
         let userProfilePic = default_logo;
-        if  ((isAuth && Object.keys(user).length)){
-            const usr = notJson(user) ? JSON.parse(user) : user;
-            if(usr.hasOwnProperty("picture")) userProfilePic = usr.picture.data.url
+        if ((isAuth && Object.keys(cookieUser).length)) {
+            const usr = notJson(cookieUser) ? JSON.parse(cookieUser) : cookieUser;
+            if (usr.hasOwnProperty("picture")) userProfilePic = usr.picture.data.url
         }
         return (
-            <Navbar bg="light" expand="lg" sticky="top">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />=
-                <Navbar.Brand as={Link} to="/">
-                    <Image src={userProfilePic} roundedCircle
-                        with="36"
-                        height="36"
-                        className="d-inline-block align-top"
-                        alt="home logo" />
-                </Navbar.Brand>
-                {isAuth  ? 
+            <Fragment>
+                {isAuth ?
+                    <Navbar bg="light" expand="lg" sticky="top">
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />=
+                        <Navbar.Brand as={Link} to="/">
+                            <Image src={userProfilePic} roundedCircle
+                                with="36"
+                                height="36"
+                                className="d-inline-block align-top"
+                                alt="home logo" />
+                        </Navbar.Brand>
                         <Fragment>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="mr-auto">
                                     <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-                                    <Nav.Link href="#" onClick={this.signOut.bind(this)}>Cerrar Sesión</Nav.Link>
+                                    <LogOutButton signOutCB={this.signOutHandler.bind(this)} />
                                 </Nav>
                             </Navbar.Collapse>
                         </Fragment>
-                        :
-                        <Fragment>
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="mr-auto">
-                                <Nav.Link as={Link} to="/iniciar-sesion">Iniciar sesión</Nav.Link>
-                                <Nav.Link as={Link} to="/registro">Registrarte</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Fragment>
+                    </Navbar>
+                    :
+                    null
                 }
-            </Navbar>
+            </Fragment>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-      isAuth: state.auth.isAuthenticated,
-      user: state.auth.user
+        isAuth: state.auth.isAuthenticated,
+        cookieUser: state.auth.user,
+        loggedInUser: state.dash.user
     };
-  }
-  
-  export default connect(mapStateToProps, actions)(Header);
+}
+
+export default connect(mapStateToProps, actions)(Header);

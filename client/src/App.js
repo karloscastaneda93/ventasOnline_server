@@ -18,7 +18,6 @@ import NotFound from "./components/NotFound/NotFound";
 import ProductsUpload from "./components/ProductsUpload/ProductsUpload";
 import ProductPage from "./components/ProductPage/ProductPage";
 import SignIn from "./components/SignIn/SignIn";
-import SignUp from "./components/SignUp/SignUp";
 import Footer from "./components/Footer/Footer";
 
 import authGuard from './components/HOCs/authGuard';
@@ -41,21 +40,20 @@ class App extends Component {
 			// Provider: wraps the React application and makes the Redux state available to all container components in the application’s hierarchy
 			<Provider store={store}>
 				<Router>
-						{!isNotFoundPage && <Header />}
-						<div style={{minHeight:'85vh'}}>
-							<Switch>
-								<Route exact path="/" component={authGuard(Home)} />
-								<Route path="/products/upload" component={authGuard(ProductsUpload)} />
-								<Route path="/product/:id" component={authGuard(ProductPage)} />
-								<Route path="/iniciar-sesion" component={authGuard(SignIn)} />
-								<Route path="/registro" component={authGuard(SignUp)} />
-								<Route path="*">
-									<NotFound onNotFound={this.handleNotFound} />
-								</Route>
-							</Switch>
-						</div>
-						{!isNotFoundPage && <Footer />}
-					</Router>
+					{!isNotFoundPage && <Header />}
+					<div style={{ minHeight: '85vh' }}>
+						<Switch>
+							<Route exact path="/" component={authGuard(Home)} />
+							<Route path="/products/upload" component={authGuard(ProductsUpload)} />
+							<Route path="/product/:id" component={authGuard(ProductPage)} />
+							<Route path="/iniciar-sesion" component={authGuard(SignIn)} />
+							<Route path="*">
+								<NotFound onNotFound={this.handleNotFound} />
+							</Route>
+						</Switch>
+					</div>
+					{!isNotFoundPage && <Footer />}
+				</Router>
 			</Provider>
 		);
 	}

@@ -12,7 +12,7 @@ module.exports = {
         try {
             const { title, price, type, category, tags } = req.value.body;
             let pathImages = [];
-            
+
             if (req.files && req.files.length) {
                 const fullUrl = 'http://localhost:5000/images/';
                 req.files.forEach(({ filename }) => {
