@@ -9,7 +9,7 @@ import "./Header.css";
 
 import default_logo from "../../assets/default-profile.jpg";
 
-function isJson(str) {
+function notJson(str) {
     try {
         JSON.parse(str);
     } catch (e) {
@@ -23,13 +23,20 @@ class Header extends Component {
         await this.props.signOut();
         await this.props.checkAuth();
     }
+
     render() {
         const { isAuth, user  } = this.props;
+        let userProfilePic = default_logo;
+        if  ((isAuth && Object.keys(user).length)){
+            let usr = user;
+            if(notJson(usr)) usr = JSON.parse(user);
+            if(usr.hasOwnProperty("picture")) userProfilePic = usr.picture.data.url
+        }
         return (
             <Navbar bg="light" expand="lg" sticky="top">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />=
                 <Navbar.Brand as={Link} to="/">
-                    <Image src={((isAuth && Object.keys(user).length ) ? (!isJson(user) ? user.picture.data.url : JSON.parse(user).picture.data.url) : default_logo )} roundedCircle
+                    <Image src={userProfilePic} roundedCircle
                         with="36"
                         height="36"
                         className="d-inline-block align-top"
