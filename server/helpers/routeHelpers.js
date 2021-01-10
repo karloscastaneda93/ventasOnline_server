@@ -32,6 +32,13 @@ module.exports = {
             size: Joi.string(),
             color: Joi.string()
         }),
+        orderSchema: Joi.object().keys({
+            client: Joi.any(),
+            products: Joi.any(),
+            status: Joi.string(),
+            recolector: Joi.string(),
+            total: Joi.number()
+        }),
         clientSchema: Joi.object().keys({
             name: Joi.string(),
             surname: Joi.string(),

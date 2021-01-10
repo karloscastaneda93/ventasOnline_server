@@ -16,7 +16,7 @@ module.exports = {
     signUp: async (req, res, next) => {
         try {
             const { name, email, password, facebook } = req.value.body;
-
+            const status = "pending";
             // Check if there is a user with the same email
             let foundUser = await User.findOne({ "local.email": email });
 
