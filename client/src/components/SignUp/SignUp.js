@@ -1,11 +1,13 @@
-import React, { Component, Fragment, useState } from "react";
-import { reduxForm } from 'redux-form';
+import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 
 import * as actions from '../../actions';
 
-import { Modal, Button, Nav } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+
+import CustomInput from '../CustomInput/CustomInput'
 
 class SignUp extends Component {
 	constructor(props) {
@@ -13,7 +15,7 @@ class SignUp extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 		this.responseFacebook = this.responseFacebook.bind(this);
 		this.state = {
-			show:false
+			show: false
 		};
 		this.handleClose = this.handleClose.bind(this);
 		this.handleShow = this.handleShow.bind(this);
@@ -21,10 +23,11 @@ class SignUp extends Component {
 	}
 
 	async onSubmit(formData) {
-		await this.props.signUp(formData);
-		if (!this.props.errorMessage) {
-			this.props.history.push('/');
-		}
+		// await this.props.signUp(formData);
+		// if (!this.props.errorMessage) {
+		// 	this.props.history.push('/');
+		// }
+		console.log(formData);
 	}
 
 	async responseFacebook(res) {
@@ -34,21 +37,21 @@ class SignUp extends Component {
 		}
 	}
 
-	
-	handleClose(){
-		this.setState({show:false});
+
+	handleClose() {
+		this.setState({ show: false });
 	}
 
-	handleShow(){
-		this.setState({show:true});
+	handleShow() {
+		this.setState({ show: true });
 	}
-	
-	handleSignUp(){
+
+	handleSignUp() {
 		console.log('sign up');
 	}
 
 	render() {
-		const {show} = this.state;
+		const { show } = this.state;
 		return (
 			<Fragment>
 				<div className="col-12">
@@ -60,12 +63,70 @@ class SignUp extends Component {
 					<Modal.Header closeButton>
 						<Modal.Title>Registrate!</Modal.Title>
 					</Modal.Header>
-					<Modal.Body>formulario</Modal.Body>
+					<Modal.Body>
+						<form onSubmit={this.onSubmit}>
+							<div className="row">
+								<div className="col-xs-12 col-sm-12 col-md-12">
+									<fieldset>
+										<Field
+											name="nombre"
+											type="text"
+											id="nombre"
+											label="Tu Nombre"
+											placeholder="Nombre"
+											className="form-control"
+											component={CustomInput} />
+									</fieldset>
+								</div>
+								<div className="col-xs-12 col-sm-12 col-md-12">
+									<fieldset>
+										<Field
+											name="apellidos"
+											type="text"
+											id="apellidos"
+											label="Tus Apellidos"
+											placeholder="Apellidos"
+											className="form-control"
+											component={CustomInput} />
+									</fieldset>
+								</div>
+								<div className="col-xs-6 col-sm-6 col-md-6">
+									<fieldset>
+										<Field
+											name="email"
+											type="text"
+											id="email"
+											label="Tu Email"
+											placeholder="Email"
+											className="form-control"
+											component={CustomInput} />
+									</fieldset>
+								</div>
+								<div className="col-xs-6 col-sm-6 col-md-6">
+									<fieldset>
+										<Field
+											name="password"
+											type="password"
+											id="password"
+											label="Tu Contraseña"
+											placeholder="Contraseña"
+											className="form-control"
+											component={CustomInput} />
+									</fieldset>
+								</div>
+							</div>
+
+							{this.props.errorMessage ?
+								<div className="alert alert-danger">
+									{this.props.errorMessage}
+								</div> : null}
+						</form>
+					</Modal.Body>
 					<Modal.Footer>
 						<Button variant="secondary" onClick={this.handleClose}>
 							cancelar
 						</Button>
-						<Button variant="primary" onClick={this.handleSignUp}>
+						<Button variant="success" onClick={this.handleSignUp}>
 							crear!
 						</Button>
 					</Modal.Footer>
