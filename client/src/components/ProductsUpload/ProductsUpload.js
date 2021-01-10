@@ -98,7 +98,7 @@ class ProductsUpload extends Component {
         return (
             <Fragment>
                 <header className="main-header">
-                    <TopBanner text={'Subir un Producto'}/>
+                    <TopBanner text={'Subir un Producto'} />
                 </header>
                 <hr />
                 <div className="container">

@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const passportConfig = require('../../passport');
 
-const passportAuth = str => {return passport.authenticate(str, {session:false})};
+const passportAuth = str => { return passport.authenticate(str, { session: false }) };
 
 const { validateBody, schemas } = require('../../helpers/routeHelpers');
 const UsersController = require("../../controllers/users");
@@ -15,10 +15,7 @@ router.route("/signIn")
     .post(validateBody(schemas.authSchema), passportAuth('local'), UsersController.signIn);
 
 router.route('/signout')
-  .get(UsersController.signOut);
-
-router.route("/secret")
-    .get(passportAuth('jwt'), UsersController.secret);
+    .get(UsersController.signOut);
 
 router.route('/status')
     .get(passport.authenticate('jwt', { session: false }), UsersController.checkAuth);

@@ -8,34 +8,34 @@ signToken = user => {
         iss: 'ventasOnline_app',
         sub: user._id,
         iat: new Date().getTime(),
-        exp: new Date().setDate(new Date().getDate() + 1) 
+        exp: new Date().setDate(new Date().getDate() + 1)
     }, JWT_SECRET);
 }
 
 module.exports = {
     signUp: async (req, res, next) => {
         try {
-            const { name, email, password, facebook} = req.value.body;
+            const { name, email, password, facebook } = req.value.body;
 
             // Check if there is a user with the same email
             let foundUser = await User.findOne({ "local.email": email });
 
-            if (foundUser) { 
-                return res.status(403).json({ error: 'Email is already in use'});
+            if (foundUser) {
+                return res.status(403).json({ error: 'Email is already in use' });
             }
 
             // Is there a FB account with the same email?
-            foundUser = await User.findOne({ 
+            foundUser = await User.findOne({
                 $or: [
                     { "google.email": email },
                     { "facebook.email": email },
-                ] 
+                ]
             });
 
             if (foundUser) {
                 // Let's merge them?
                 foundUser.methods.push('local');
-                foundUser.local = {name, email, password, facebook};
+                foundUser.local = { _id: new mongoose.Types.ObjectId(),name, email, password, facebook };
                 await foundUser.save();
                 // Generate the token
                 const token = signToken(foundUser);
@@ -45,9 +45,9 @@ module.exports = {
                 });
                 res.status(200).json({ success: true });
             }
-            
+
             // Create a new user
-            const newUser = new User({ 
+            const newUser = new User({
                 methods: ['local'],
                 local: {
                     _id: new mongoose.Types.ObjectId(),
@@ -90,14 +90,6 @@ module.exports = {
             res.status(404).json({ error })
         }
     },
-    secret: async (req, res, next) => {
-        // secret data, for logged in users
-        try {
-
-        } catch (error) {
-            res.status(404).json({ error })
-        }
-    },
     facebookOauth: async (req, res, next) => {
         try {
             // Generate token
@@ -112,18 +104,15 @@ module.exports = {
     },
     signOut: async (req, res, next) => {
         res.clearCookie('access_token');
-        console.log(res.cookie);
         res.json({ success: true });
     },
-
     linkFacebook: async (req, res, next) => {
-        res.json({ 
-            success: true, 
-            methods: req.user.methods, 
-            message: 'Successfully linked account with Facebook' 
+        res.json({
+            success: true,
+            methods: req.user.methods,
+            message: 'Successfully linked account with Facebook'
         });
     },
-
     unlinkFacebook: async (req, res, next) => {
         // Delete Facebook sub-object
         if (req.user.facebook) {
@@ -137,23 +126,18 @@ module.exports = {
         await req.user.save()
 
         // Return something?
-        res.json({ 
+        res.json({
             success: true,
-            methods: req.user.methods, 
-            message: 'Successfully unlinked account from Facebook' 
+            methods: req.user.methods,
+            message: 'Successfully unlinked account from Facebook'
         });
     },
-
     dashboard: async (req, res, next) => {
-        console.log('I managed to get here!');
-        res.json({ 
-            secret: "resource",
-            methods: req.user.methods
+        res.json({
+            user:req.user
         });
     },
-
     checkAuth: async (req, res, next) => {
         res.json({ success: true });
     }
-    
 }

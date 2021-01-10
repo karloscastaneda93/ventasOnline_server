@@ -28,7 +28,7 @@ router.get("/", ProductsController.getAll);
 
 router.get("/:id", ProductsController.getById);
 
-function checkUploadPath(req, res, next) {    
+function checkUploadPath(req, res, next) {
     fs.exists(uploadPath, function (exists) {
         if (exists) {
             next();

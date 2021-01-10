@@ -21,19 +21,19 @@ app.use('/images', express.static('images'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "https://localhost:3000",
-    credentials: true
-  })
+	cors({
+		origin: "https://localhost:3000",
+		credentials: true
+	})
 );
 
 // MongoDB config og connection
 const db = require("./server/config/keys").mongoURI;
 
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("ventasOnline_DB connected..."))
-  .catch(err => console.log(err));
+	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+	.then(() => console.log("ventasOnline_DB connected..."))
+	.catch(err => console.log(err));
 
 // Uses the routes from routes/api/
 app.use("/api/products/", require("./server/routes/api/products"));
@@ -42,11 +42,11 @@ app.use("/api/clients", require("./server/routes/api/clients"));
 
 // not found 
 app.use('*', function (req, res, next) {
-  let error = new Error();
-  error.message = 'Page Not Found';
-  error.statusCode = 404;
-  res.status(404).json({ error });
-  next();
+	let error = new Error();
+	error.message = 'Page Not Found';
+	error.statusCode = 404;
+	res.status(404).json({ error });
+	next();
 });
 
 const port = 5000; // Sets port for server

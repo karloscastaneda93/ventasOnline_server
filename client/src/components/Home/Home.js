@@ -14,29 +14,30 @@ class Home extends Component {
     async componentDidMount() {
         const { match: { params: { id } } } = this.props;
         await this.props.getSingleProduct(id);
+        await this.props.getDashboard();
     }
 
     render() {
+        const {user} = this.props;
         return (
             <div className="home">
-				<header className="main-header">
-					<TopBanner text={'Bienvenido'}/>
-				</header>
-				<hr />
-				<section className="products-slider">
-					<ProductsSlider/>
-				</section>
+                <header className="main-header">
+                    <TopBanner text={'Bienvenido'} />
+                </header>
+                <hr />
+                <section className="products-slider">
+                    <ProductsSlider />
+                </section>
 
-			</div>
+            </div>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        secret: state.dash.secret,
-		dashboard: state.dash,
-		auth: state.auth
+        user: state.dash.user,
+        auth: state.auth
     }
 }
 

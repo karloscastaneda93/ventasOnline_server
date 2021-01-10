@@ -10,7 +10,7 @@ export default class TopBanner extends Component {
                 bgImage={home_banner}
                 bgImageAlt="Top Banner"
                 strength={250}
-                style={{ height: '35vh'}}
+                style={{ height: '35vh' }}
             >
                 <div className="container">
                     <div className="row">

@@ -30,8 +30,7 @@
     content: " ×";
 }
 
-.react-tagsinput-input:active,
-.react-tagsinput-input:focus {
+.react-tagsinput-input:active, .react-tagsinput-input:focus {
     outline: none !important;
 }
 

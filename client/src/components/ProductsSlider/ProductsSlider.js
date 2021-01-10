@@ -37,7 +37,6 @@ class ProductsSlider extends Component {
     }
     render() {
         const { productsGetData: { products } } = this.props;
-
         return (
             <div className="container">
                 <h2 className="our-product">Products Nuevos</h2>

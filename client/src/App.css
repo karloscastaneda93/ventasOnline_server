@@ -1,14 +1,10 @@
 @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
 @import url(https://fonts.googleapis.com/css?family=Oswald:400|Raleway:400,700,400italic,700italic);
-
-*,
-*:before,
-*:after {
+*, *:before, *:after {
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -38,8 +34,8 @@ a:hover {
     text-decoration: none;
 }
 
-a.hover:hover{
-    text-decoration: underline;  
+a.hover:hover {
+    text-decoration: underline;
 }
 
 .container {
@@ -66,11 +62,12 @@ p {
     width: 1px;
 }
 
-
-
 /************************************************/
+
 /****************** NAVIGATION ******************/
+
 /************************************************/
+
 nav {
     background: #f8bcd0;
     color: #ffffff;
@@ -83,6 +80,7 @@ nav {
 }
 
 /*** INPUT ***/
+
 nav input {
     opacity: 0;
     position: absolute;
@@ -90,6 +88,7 @@ nav input {
 }
 
 /*** LABEL ***/
+
 nav label {
     cursor: pointer;
     display: block;
@@ -99,9 +98,8 @@ nav label {
 }
 
 /* Hamburger Icon */
-#menu-icon,
-#menu-icon:before,
-#menu-icon:after {
+
+#menu-icon, #menu-icon:before, #menu-icon:after {
     background: #ffffff;
     border-radius: 0.05em;
     height: 0.2em;
@@ -126,8 +124,7 @@ nav label #menu-icon {
     left: 35px;
 }
 
-#menu-icon:before,
-#menu-icon:after {
+#menu-icon:before, #menu-icon:after {
     content: '';
     left: 0;
     position: absolute;
@@ -142,6 +139,7 @@ nav label #menu-icon {
 }
 
 /* Close Icon */
+
 nav input[type=checkbox]:checked+label #menu-icon {
     background: transparent;
 }
@@ -156,9 +154,10 @@ nav input[type=checkbox]:checked+label #menu-icon:after {
     transform: rotate(45deg);
 }
 
-
 /*** MENU ***/
+
 /* Overlay */
+
 nav input:checked~#overlay {
     background: #f8bcd0;
     bottom: 0;
@@ -172,6 +171,7 @@ nav input:checked~#overlay {
 }
 
 /* List */
+
 nav ul {
     font-size: 1.5em;
     list-style: none;
@@ -203,6 +203,7 @@ nav ul a:hover {
 }
 
 /* Social Media */
+
 nav ul#social-media>li {
     display: inline-block;
     font-size: 1.5em;
@@ -216,7 +217,7 @@ nav ul#social-media>li {
     line-height: 86px;
     color: white;
     text-align: center;
-    text-shadow:-0.0075em 0.0075em 0 #fef2f6, 0.005em 0.005em 0 #f6a5c1, 0.01em 0.01em 0 #f7aac4, 0.015em 0.015em #f7aec7, 0.02em 0.02em 0 #f8b3ca, 0.025em 0.025em 0 #f8b7cd, 0.03em 0.03em 0 #f8bcd0, 0.035em 0.035em 0 #f9c0d3;
+    text-shadow: -0.0075em 0.0075em 0 #fef2f6, 0.005em 0.005em 0 #f6a5c1, 0.01em 0.01em 0 #f7aac4, 0.015em 0.015em #f7aec7, 0.02em 0.02em 0 #f8b3ca, 0.025em 0.025em 0 #f8b7cd, 0.03em 0.03em 0 #f8bcd0, 0.035em 0.035em 0 #f9c0d3;
 }
 
 .main-sub-text {
@@ -238,6 +239,15 @@ nav ul#social-media>li {
 
 .header-main-text {
     margin: 85px 0;
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    .header-main-text {
+        margin: 25px 0;
+    }
 }
 
 .padding-cust-reset {
@@ -405,7 +415,6 @@ ul.social-network li {
     margin: 0 5px;
 }
 
-
 /* footer social icons */
 
 .social-network a.icoFacebook:hover {
@@ -416,13 +425,11 @@ ul.social-network li {
     background-color: #007bb7;
 }
 
-.social-network a.icoFacebook:hover i,
-.social-network a.icoLinkedin:hover i {
+.social-network a.icoFacebook:hover i, .social-network a.icoLinkedin:hover i {
     color: #fff;
 }
 
-.social-network a.socialIcon:hover,
-.socialHoverClass {
+.social-network a.socialIcon:hover, .socialHoverClass {
     color: #44BCDD;
 }
 
@@ -445,8 +452,7 @@ ul.social-network li {
     text-align: center;
 }
 
-.social-circle li a:hover i,
-.triggeredHover {
+.social-circle li a:hover i, .triggeredHover {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -ms--transform: rotate(360deg);
@@ -471,13 +477,11 @@ ul.social-network li {
     background-color: #F9F9F9;
 }
 
-
 @media only screen and (max-width: 425px) {
     .product-grid__product {
         margin-bottom: 120px !important;
     }
 }
-
 
 @media only screen and (max-width: 768px) {
     .image-header {
@@ -486,19 +490,15 @@ ul.social-network li {
         bottom: -84px;
         position: relative;
     }
-
     .main-text {
-        font-size: 38px;
+        font-size: 32px;
     }
-
     .btn-shopnow {
         margin-bottom: 60px;
     }
-
     .card-title {
         margin-top: 32px !important;
     }
-
     .product-card {
         width: 225px;
     }
@@ -508,7 +508,6 @@ ul.social-network li {
     .image-header {
         display: none;
     }
-
     .product-card {
         width: 320px;
     }
