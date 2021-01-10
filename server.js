@@ -38,6 +38,7 @@ mongoose
 // Uses the routes from routes/api/
 app.use("/api/products/", require("./server/routes/api/products"));
 app.use("/api/users/", require("./server/routes/api/users"));
+app.use("/api/clients", require("./server/routes/api/clients"));
 
 // not found 
 app.use('*', function (req, res, next) {

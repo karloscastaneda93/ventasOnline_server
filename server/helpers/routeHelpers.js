@@ -3,6 +3,7 @@ const Joi = require('joi');
 module.exports = {
     validateBody: (schema) => {
         return (req, res, next) => {
+            console.log(req.body);
             const result = Joi.validate(req.body, schema);
 
             if (result.error) {
@@ -30,6 +31,12 @@ module.exports = {
             images: Joi.any(),
             size: Joi.string(),
             color: Joi.string()
-        })
+        }),
+        clientSchema: Joi.object().keys({
+            name: Joi.string(),
+            surname: Joi.string(),
+            fb: Joi.string(),
+            recolector: Joi.string()
+            })
     }
 }
