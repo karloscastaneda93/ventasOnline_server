@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -38,12 +38,12 @@ class ProductsSlider extends Component {
     render() {
         const { productsGetData: { products } } = this.props;
         return (
-            <div className="container">
+            <Fragment>
                 <h2 className="our-product">Products Nuevos</h2>
-                <div className="row">
+                <div className="col">
                     {(products && products.length) ? products.map(this.mapProducts.bind(this)) : null}
                 </div>
-            </div>
+            </Fragment>
         );
     }
 }

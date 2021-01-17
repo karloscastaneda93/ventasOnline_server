@@ -20,8 +20,6 @@ import {
 
 const api_base_url = 'http://localhost:5000/api';
 
-axios.defaults.headers.common['Authorization'] = Cookies.get('access_token');
-
 export const uploadProduct = data => {
 	return async dispatch => {
 		try {

@@ -14,7 +14,7 @@ export default (OriginalComponent) => {
 
 		bindStore() {
 			const { auth } = store.getState();
-			if (auth.isSignOut) this.props.history.push('/iniciar-sesion');
+			if (auth.isSignOut && !auth.isAuthenticated) this.props.history.push('/iniciar-sesion');
 		}
 
 		checkAuth() {

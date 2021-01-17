@@ -25,12 +25,7 @@ module.exports = {
             }
 
             // Is there a FB account with the same email?
-            foundUser = await User.findOne({
-                $or: [
-                    { "google.email": email },
-                    { "facebook.email": email },
-                ]
-            });
+            foundUser = await User.findOne({ "facebook.email": email });
 
             if (foundUser) {
                 // Let's merge them?
@@ -119,7 +114,7 @@ module.exports = {
             req.user.facebook = undefined
         }
         // Remove 'facebook' from methods array
-        const facebookStrPos = req.user.methods.indexOf('facebook')
+        const facebookStrPos = req.user.methods.indexOf('facebook');
         if (facebookStrPos >= 0) {
             req.user.methods.splice(facebookStrPos, 1)
         }

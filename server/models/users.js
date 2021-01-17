@@ -22,15 +22,6 @@ const userSchema = new Schema({
 			type: String
 		}
 	},
-	google: {
-		id: {
-			type: String
-		},
-		email: {
-			type: String,
-			lowercase: true
-		}
-	},
 	facebook: {
 		id: {
 			type: String

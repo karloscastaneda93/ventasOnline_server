@@ -32,7 +32,6 @@ class Header extends Component {
 
     render() {
         const { isAuth, cookieUser, loggedInUser } = this.props;
-        console.log(loggedInUser);
         let userProfilePic = default_logo;
         if ((isAuth && Object.keys(cookieUser).length)) {
             const usr = notJson(cookieUser) ? JSON.parse(cookieUser) : cookieUser;

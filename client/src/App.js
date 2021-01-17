@@ -13,7 +13,7 @@ import store from "./store";
 import "./App.css";
 
 import Header from "./components/Header/Header";
-import Home from "./components/Home/Home";
+import Dashboard from "./components/Dashboard/Dashboard";
 import NotFound from "./components/NotFound/NotFound";
 import ProductsUpload from "./components/ProductsUpload/ProductsUpload";
 import ProductPage from "./components/ProductPage/ProductPage";
@@ -43,7 +43,7 @@ class App extends Component {
 					{!isNotFoundPage && <Header />}
 					<div style={{ minHeight: '85vh' }}>
 						<Switch>
-							<Route exact path="/" component={authGuard(Home)} />
+							<Route exact path="/" component={authGuard(Dashboard)} />
 							<Route path="/products/upload" component={authGuard(ProductsUpload)} />
 							<Route path="/product/:id" component={authGuard(ProductPage)} />
 							<Route path="/iniciar-sesion" component={authGuard(SignIn)} />

@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from 'react';
-import { Card, Image, Button } from 'react-bootstrap';
+import {withRouter} from 'react-router-dom';
+import { Card, Image } from 'react-bootstrap';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 import * as actions from '../../actions';
 import CustomInput from '../CustomInput/CustomInput';
 import SignUp from '../SignUp/SignUp';
 
 import default_logo from "../../assets/default-profile.jpg";
+
+const SignUpWithHistory = withRouter(SignUp);
 
 class SignIn extends Component {
 	constructor(props) {
@@ -109,7 +112,7 @@ class SignIn extends Component {
 								<br />
 								<hr />
 								<br />
-								<SignUp/>
+								<SignUpWithHistory/>
 							</Card.Body>
 						</Card>
 					</div>
