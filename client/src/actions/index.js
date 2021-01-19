@@ -15,10 +15,88 @@ import {
 	AUTH_LINK_FACEBOOK,
 	AUTH_UNLINK_FACEBOOK,
 	AUTH_ERROR,
-	DASHBOARD_GET_DATA
+	DASHBOARD_GET_DATA,
+	categoryConstansts
 } from './types';
 
 const api_base_url = 'http://localhost:5000/api';
+
+export const getAllCategories = () => {
+    return async dispatch => {
+		dispatch({ type: categoryConstansts.GET_ALL_CATEGORIES_REQUEST });
+		try {
+			const { data: categories } = await axios.get(`${api_base_url}/categories/getAll`);
+            dispatch({
+                type: categoryConstansts.GET_ALL_CATEGORIES_SUCCESS,
+                payload: categories
+            });
+		} catch (err) {
+			dispatch({
+                type: categoryConstansts.GET_ALL_CATEGORIES_FAILURE,
+                payload: `Error Llamando Categorias`
+            });
+		}
+    }
+}
+
+export const addCategory = (form) => {
+    return async dispatch => {
+        dispatch({ type: categoryConstansts.ADD_NEW_CATEGORY_REQUEST });
+        try {
+			console.log(form);
+            await axios.post(`${api_base_url}/categories/create`, form);
+            
+			dispatch({
+				type: categoryConstansts.ADD_NEW_CATEGORY_SUCCESS,
+				payload: 'success'
+			});
+        } catch (error) { 
+			dispatch({
+				type: categoryConstansts.ADD_NEW_CATEGORY_FAILURE,
+				payload: error
+			});
+        }
+
+    }
+}
+
+export const updateCategories = (form) => {
+    return async dispatch => {
+        dispatch({ type: categoryConstansts.UPDATE_CATEGORIES_REQUEST });
+        const res = await axios.post(`/category/update`, form);
+        if (res.status === 201) {
+            dispatch({ type: categoryConstansts.UPDATE_CATEGORIES_SUCCESS });
+            dispatch(getAllCategories());
+        } else {
+            const { error } = res.data;
+            dispatch({
+                type: categoryConstansts.UPDATE_CATEGORIES_FAILURE,
+                payload: { error }
+            });
+        }
+    }
+}
+
+export const deleteCategories = (ids) => {
+    return async dispatch => {
+        dispatch({ type: categoryConstansts.DELETE_CATEGORIES_REQUEST });
+        const res = await axios.post(`/category/delete`, {
+            payload: {
+                ids
+            }
+        });
+        if (res.status === 201) {
+            dispatch(getAllCategories());
+            dispatch({ type: categoryConstansts.DELETE_CATEGORIES_SUCCESS });
+        } else {
+            const { error } = res.data;
+            dispatch({
+                type: categoryConstansts.DELETE_CATEGORIES_FAILURE,
+                payload: { error }
+            });
+        }
+    }
+}
 
 export const uploadProduct = data => {
 	return async dispatch => {

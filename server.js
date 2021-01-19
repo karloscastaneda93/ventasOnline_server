@@ -39,7 +39,9 @@ mongoose
 app.use("/api/products/", require("./server/routes/api/products"));
 app.use("/api/users/", require("./server/routes/api/users"));
 app.use("/api/clients", require("./server/routes/api/clients"));
-app.use("/api/orders", require("./server/routes/api/orders"))
+app.use("/api/orders", require("./server/routes/api/orders"));
+app.use("/api/categories", require("./server/routes/api/categories"));
+
 // not found 
 app.use('*', function (req, res, next) {
 	let error = new Error();

@@ -4,7 +4,7 @@ module.exports = {
     validateBody: (schema) => {
         return (req, res, next) => {
             const result = Joi.validate(req.body, schema);
-
+            
             if (result.error) {
                 return res.status(400).json(result.error);
             }
@@ -43,6 +43,10 @@ module.exports = {
             surname: Joi.string(),
             fb: Joi.string(),
             recolector: Joi.string()
+        }),
+        categorySchema: Joi.object().keys({
+            name: Joi.string(),
+            parentId: Joi.string().allow('')
         })
     }
 }

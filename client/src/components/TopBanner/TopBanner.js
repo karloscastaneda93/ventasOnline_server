@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Parallax } from 'react-parallax';
 import home_banner from "../../assets/home_banner.jpg";
 
+import './TopBanner.css';
+
 export default class TopBanner extends Component {
     render() {
         return (
@@ -10,7 +12,7 @@ export default class TopBanner extends Component {
                 bgImage={home_banner}
                 bgImageAlt="Top Banner"
                 strength={250}
-                style={{ height: '35vh' }}
+                style={{ height: '25vh' }}
             >
                 <div className="container">
                     <div className="row">

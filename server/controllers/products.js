@@ -1,7 +1,5 @@
-// const JWT = require('jsonwebtoken');
 const Product = require('../models/products');
 const mongoose = require('mongoose');
-// const { JWT_SECRET } = require('../config/keys');
 
 const isEmptyObject = (obj) => {
     return !Object.keys(obj).length;

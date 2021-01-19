@@ -236,19 +236,6 @@ nav ul#social-media>li {
     margin-top: 60px;
 }
 
-.header-main-text {
-    margin: 85px 0;
-}
-
-@media only screen 
-  and (min-device-width: 320px) 
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    .header-main-text {
-        margin: 25px 0;
-    }
-}
-
 .padding-cust-reset {
     padding: 0;
 }

@@ -3,8 +3,10 @@ import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import TopBanner from '../TopBanner/TopBanner';
-import ProductsSlider from '../ProductsSlider/ProductsSlider';
+import Products from '../Products/Products';
 import Orders from '../Orders/Orders';
+import Clients from '../Clients/Clients';
+import Categories from "../Categories/Categories";
 
 import "./Dashboard.css";
 
@@ -17,6 +19,10 @@ class Dashboard extends Component {
     state = {
         index: 0
     };
+
+    componentDidMount(){
+        this.props.getAllCategories();
+    }
 
     handleChange = (event, value) => {
         this.setState({
@@ -39,21 +45,25 @@ class Dashboard extends Component {
     render() {
         const { index } = this.state;
         return (
-            <div className="home">
+            <div className="dashboard">
                 <header className="main-header">
                     <TopBanner text={'Bienvenido'} />
-                    <Tabs defaultActiveKey="0" activeKey={index} variant="tabs" onSelect={this.setTab.bind(this)}>
+                    <Tabs className="d-flex justify-content-center" defaultActiveKey="0" activeKey={index} variant="tabs" onSelect={this.setTab.bind(this)}>
                         <Tab eventKey="0" title="Ordenes"/>
                         <Tab eventKey="1" title="Productos"/>
+                        <Tab eventKey="2" title="Clientes"/>
+                        <Tab eventKey="3" title="Categorias"/>
                     </Tabs>
                 </header>
                 <br />
-                <div className="container">
+                <div className="container app">
                     <div className="row">
-                        <div className="col-md-12">
-                            <SwipeableViews enableMouseEvents index={index} onChangeIndex={this.handleChangeIndex}>
+                        <div className="col">
+                            <SwipeableViews className="test" enableMouseEvents index={index} onChangeIndex={this.handleChangeIndex}>
                                 <Orders />
-                                <ProductsSlider />
+                                <Products />
+                                <Clients />
+                                <Categories />
                             </SwipeableViews>
                         </div>
                     </div>
