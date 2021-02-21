@@ -8,7 +8,7 @@ const LogOutButton = (props) => {
     const handleSignOut = () => { props.signOutCB(); handleClose() };
     return (
         <Fragment>
-            <Nav.Link href="#" onClick={handleShow}>Cerrar Sesión</Nav.Link>
+            <Nav.Link href="#" onClick={handleShow}><i className="fas fa-sign-out-alt mr-1"></i>Cerrar Sesión</Nav.Link>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Cerrar Sesión</Modal.Title>

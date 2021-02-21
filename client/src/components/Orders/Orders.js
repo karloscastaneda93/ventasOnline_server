@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Col } from 'react-bootstrap';
 
 import * as actions from '../../actions';
 
@@ -9,7 +9,12 @@ class Orders extends Component {
     render() {
         return (
             <Fragment>
-                <h2 className="our-product">Ordenes</h2>
+                <Col md={12} className={"d-flex my-5 justify-content-between align-items-center"} style={{height:"65px"}}>
+                    <h2 className="our-product">Ordenes</h2>
+                    <Button variant="success" className="btn my-5">
+						Nueva Orden!
+				  	</Button>
+                </Col>
                 <div className="col">
                     <Table striped bordered hover>
                         <thead>
@@ -41,9 +46,6 @@ class Orders extends Component {
                             </tr>
                         </tbody>
                     </Table>
-                    <Button variant="success" className="btn my-5">
-						Nueva Orden!
-				  	</Button>
                 </div>
             </Fragment>
         );

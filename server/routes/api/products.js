@@ -1,9 +1,13 @@
 const express = require("express");
-const router = express.Router();
-const fs = require('fs');
-
 const multer = require("multer");
+const router = express.Router();
+const fs = require("fs");
+
 const uploadPath = 'images';
+
+const { checkApiParameters, validateBody, schemas } = require('../../helpers/routeHelpers');
+const ProductsController = require("../../controllers/products");
+const ProductsModel = require("../../models/products");
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -20,13 +24,6 @@ const upload = multer({
         fileSize: 1024 * 1024 * 5
     }
 });
-
-const { validateBody, schemas } = require('../../helpers/routeHelpers');
-const ProductsController = require("../../controllers/products");
-
-router.get("/", ProductsController.getAll);
-
-router.get("/:id", ProductsController.getById);
 
 function checkUploadPath(req, res, next) {
     fs.exists(uploadPath, function (exists) {
@@ -47,7 +44,11 @@ function checkUploadPath(req, res, next) {
     })
 }
 
+router.get("/", checkApiParameters(ProductsModel), ProductsController.getAll);
+
+router.get("/:id", ProductsController.getById);
+
 router.route("/upload")
-    .post(checkUploadPath, upload.any('images'), validateBody(schemas.productSchema), ProductsController.upload);
+    .post(checkUploadPath, upload.single('images'), validateBody(schemas.productSchema), ProductsController.upload);
 
 module.exports = router;

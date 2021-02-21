@@ -1,26 +1,16 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Image } from 'react-bootstrap';
+import { Navbar, Form, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
 
-import LogOutButton from '../LogOutButton/LogOutButton';
-
 import "./Header.css";
 
-import default_logo from "../../assets/default-profile.jpg";
-
-function notJson(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
 class Header extends Component {
+    state = {
+        expandSidebar: false
+    }
     async signOut() {
         await this.props.signOut();
         await this.props.checkAuth();
@@ -31,33 +21,28 @@ class Header extends Component {
     }
 
     render() {
-        const { isAuth, cookieUser, loggedInUser } = this.props;
-        let userProfilePic = default_logo;
-        if ((isAuth && Object.keys(cookieUser).length)) {
-            const usr = notJson(cookieUser) ? JSON.parse(cookieUser) : cookieUser;
-            if (usr.hasOwnProperty("picture")) userProfilePic = usr.picture.data.url
-        }
+        const { isAuth } = this.props;
+
         return (
             <Fragment>
                 {isAuth ?
-                    <Navbar bg="light" expand="lg" sticky="top">
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />=
-                        <Navbar.Brand as={Link} to="/">
-                            <Image src={userProfilePic} roundedCircle
-                                with="36"
-                                height="36"
-                                className="d-inline-block align-top"
-                                alt="home logo" />
-                        </Navbar.Brand>
-                        <Fragment>
+                    <Fragment>
+                        <Navbar bg="light" expand="lg" sticky="top" style={{ boxShadow: "0 5px 5px -3px rgba(0,0,0,.15)" }}>
+                            <Navbar.Brand as={Link} to="/">
+                                <div>
+                                    Luna Bazzar App
+                                </div>
+                            </Navbar.Brand>
+                            <Navbar.Toggle as={'a'} aria-controls="basic-navbar-nav" >
+                                <i className={'fa fa-search'}></i>
+                            </Navbar.Toggle>
                             <Navbar.Collapse id="basic-navbar-nav">
-                                <Nav className="mr-auto">
-                                    <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-                                    <LogOutButton signOutCB={this.signOutHandler.bind(this)} />
-                                </Nav>
+                                <Form inline className="d-flex justify-content-center" style={{ width: "100%" }}>
+                                    <FormControl type="text" placeholder="Buscar" className="mr-sm-2" />
+                                </Form>
                             </Navbar.Collapse>
-                        </Fragment>
-                    </Navbar>
+                        </Navbar>
+                    </Fragment>
                     :
                     null
                 }

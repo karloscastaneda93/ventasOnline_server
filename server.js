@@ -45,7 +45,7 @@ app.use("/api/categories", require("./server/routes/api/categories"));
 // not found 
 app.use('*', function (req, res, next) {
 	let error = new Error();
-	error.message = 'Page Not Found';
+	error.message = 'Not Found';
 	error.statusCode = 404;
 	res.status(404).json({ error });
 	next();

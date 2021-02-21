@@ -6,26 +6,36 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as actions from '../../actions';
 import TagsInput from 'react-tagsinput';
-import Alert from 'react-bootstrap/Alert';
+import { Alert, Button } from 'react-bootstrap';
+import CheckboxTree from 'react-checkbox-tree';
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
-import "./ProductsUpload.css";
+import { renderCategories, getCheckedCategory } from "../../utils/common";
+
+import "./ProductUpload.css";
 import CustomInput from '../CustomInput/CustomInput';
 import TopBanner from '../TopBanner/TopBanner';
+import Modal from '../../components/UI/Modal/Modal';
+import Input from '../../components/UI/Input/Input';
 
 const ProductSchema = Yup.object().shape({
     title: Yup.string().required("Debes asignar Titulo del Producto"),
-    price: Yup.string().required("Debes asignar Precio del Producto"),
-    type: Yup.string().required("Debes asignar Tipo de Producto"),
-    category: Yup.string().required("Debes asignar una Categoria"),
+    price: Yup.string().required("Debes asignar Precio del Producto")
 });
 
-class ProductsUpload extends Component {
+class ProductUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
             tags: [],
-            images: []
+            images: [],
+            checked: [],
+            expanded: [],
+            showSelectCategoryModal: false,
+            selectedImage: "https://via.placeholder.com/420x360/EAEAEA/808080?text=Seleccionar+Imagen+Del+Producto",
+            selectedImageName: ""
         }
+
         this.onSubmit = this.onSubmit.bind(this);
         this.handleTagsChange = this.handleTagsChange.bind(this);
         this.handleFileSelect = this.handleFileSelect.bind(this);
@@ -33,7 +43,7 @@ class ProductsUpload extends Component {
     }
 
     async onSubmit(data) {
-        const { tags, images } = this.state;
+        const { tags, images, checked } = this.state;
 
         let formData = new FormData();
 
@@ -46,6 +56,12 @@ class ProductsUpload extends Component {
         if (tags && tags.length) {
             tags.forEach((tag, i) => {
                 formData.append("tags", tag);
+            });
+        }
+
+        if (checked && checked.length) {
+            checked.forEach((item, i) => {
+                formData.append("category", item);
             });
         }
 
@@ -68,6 +84,11 @@ class ProductsUpload extends Component {
         });
     }
 
+
+    componentDidMount() {
+        this.props.getAllCategories();
+    }
+
     handleTagsChange(tags) {
         this.setState({ tags });
     }
@@ -75,25 +96,70 @@ class ProductsUpload extends Component {
     handleFileSelect(e) {
         e.preventDefault();
         let { images } = this.state;
-
+        this.setState({ selectedImage: "" });
+        this.setState({ selectedImageName: "" });
         const files = Array.from(e.target.files);
 
-        if (images && images.length) {
-            files.forEach((file, i) => {
-                images = [...images, file];
-            });
-            return this.setState({ images });
-        }
+        const reader = new FileReader();
+        const _this = this;
+        reader.onload = function (e) {
+            _this.setState({ selectedImage: e.currentTarget.result });
+        };
 
         files.forEach((file, i) => {
+            reader.readAsDataURL(file);
+            _this.setState({ selectedImageName: file.name });
             images = [...images, file];
         });
 
         this.setState({ images });
     }
 
+    renderDeleteCategoryModal = () => {
+        const { checked, expanded, showSelectCategoryModal } = this.state;
+        const { category: { categories } } = this.props;
+        return (
+            <Modal
+                modalTitle="Seleccionar Categoria"
+                show={showSelectCategoryModal}
+                handleClose={() => this.setState({ showSelectCategoryModal: false })}
+                buttons={[
+                    {
+                        label: 'OK',
+                        color: 'success',
+                        onClick: () => {
+                            this.setState({ showSelectCategoryModal: false })
+                        }
+                    }
+                ]}
+            >
+                <CheckboxTree
+                    nodes={renderCategories(categories)}
+                    checked={checked}
+                    expanded={expanded}
+                    onCheck={checked => this.setState({ checked })}
+                    onExpand={expanded => this.setState({ expanded })}
+                    icons={{
+                        check: <i className={`fa fa-check-square`}></i>,
+                        uncheck: <i className={`far fa-square`}></i>,
+                        halfCheck: <i className={`fal fa-check-square`}></i>,
+                        expandClose: <i className={`fas fa-caret-down`}></i>,
+                        expandOpen: <i className={`fas fa-caret-up`}></i>,
+                    }}
+                />
+            </Modal>
+        );
+    }
+
     render() {
-        let { tags, images } = this.state;
+        let { tags, selectedImage, checked, showSelectCategoryModal, selectedImageName } = this.state;
+        const { category: { categories } } = this.props;
+
+        let selectedCategory = "";
+
+        if (checked && checked.length) {
+            categories.find(element => selectedCategory = getCheckedCategory(element, "_id", checked[0]));
+        }
 
         return (
             <Fragment>
@@ -103,13 +169,27 @@ class ProductsUpload extends Component {
                 <hr />
                 <div className="container">
                     <div className="row">
+                        <div className="col-md-6 my-5">
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-md-12 imgUp">
+                                        <div className="imagePreview">
+                                            <div className="imagePreviewContent">
+                                                <img src={selectedImage} alt="Product Image" />
+                                            </div>
+                                        </div>
+                                        <label className="btn btn-primary">{(selectedImageName && selectedImageName.length) ? selectedImageName : 'Seleccionar Imagen del Producto'}
+                                            <input type="file" accept="image/*" onChange={this.handleFileSelect} className="uploadFile img custom-file-input" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="col-md-6 m-auto">
                             <Formik
                                 initialValues={{
                                     title: "",
-                                    price: "",
-                                    type: "",
-                                    category: ""
+                                    price: ""
                                 }}
                                 encType="multipart/form-data"
                                 onSubmit={this.onSubmit}
@@ -126,13 +206,13 @@ class ProductsUpload extends Component {
 
                                     return (
                                         <form onSubmit={handleSubmit}>
-                                            <fieldset>
+                                            <fieldset className="mt-4">
                                                 <Field
                                                     name="title"
                                                     type="string"
                                                     id="title"
-                                                    label="Enter title"
-                                                    placeholder="Titulo"
+                                                    label="Tutulo del Producto"
+                                                    placeholder="eg: Playera Adidas"
                                                     value={values.title}
                                                     className="form-control"
                                                     onChange={handleChange}
@@ -145,12 +225,12 @@ class ProductsUpload extends Component {
                                                     </Alert>
                                                 }
                                             </fieldset>
-                                            <fieldset>
+                                            <fieldset className="mb-4">
                                                 <Field
                                                     name="price"
                                                     type="string"
                                                     id="price"
-                                                    label="Enter price"
+                                                    label="Precio del Producto"
                                                     placeholder="Precio"
                                                     value={values.price}
                                                     className="form-control"
@@ -164,79 +244,23 @@ class ProductsUpload extends Component {
                                                     </Alert>
                                                 }
                                             </fieldset>
-                                            <fieldset>
-                                                <Field
-                                                    name="type"
-                                                    type="string"
-                                                    id="type"
-                                                    label="Enter type"
-                                                    placeholder="Tipo de Producto"
-                                                    value={values.type}
-                                                    className="form-control"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    component={CustomInput}
-                                                />
-                                                {errors.type &&
-                                                    <Alert variant="danger" className="btn-block text-left">
-                                                        <ErrorMessage name="type" />
-                                                    </Alert>
-                                                }
-                                            </fieldset>
-                                            <fieldset className="mb-4 mt-3">
-                                                <select
-                                                    type="text"
-                                                    role="multiselect"
-                                                    name="category"
-                                                    id="category"
-                                                    value={values.color}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    className="form-control multiselect multiselect-icon"
-                                                    style={{ display: 'block' }}
-                                                >
-                                                    <option value="" label="Selecciona una Categoria" />
-                                                    <option value="medicinal" label="Medicinal" />
-                                                    <option value="mexicana" label="Mexicana" />
-                                                    <option value="vapes" label="Vapes" />
-                                                    <option value="edibles" label="Comestibles" />
-                                                </select>
-                                                {errors.category &&
-                                                    <Alert variant="danger" className="btn-block text-left mt-3">
-                                                        <ErrorMessage name="category" />
-                                                    </Alert>
-                                                }
-                                            </fieldset>
-                                            <fieldset className="my-4">
-                                                <div className="custom-file">
-                                                    <input type="file" accept="image/*" multiple onChange={this.handleFileSelect} className="custom-file-input" />
-                                                    <label className="custom-file-label">Seleciona tus Fotos</label>
-                                                    {(images && images.length) ?
-                                                        <Fragment>
-                                                            <div>{images.length} Selected</div>
-                                                            {images.map(({ name }, key) => {
-                                                                return (
-                                                                    <div key={key}>{name}</div>
-                                                                )
-                                                            })}
-                                                        </Fragment>
-                                                        :
-                                                        null
-                                                    }
-                                                </div>
-                                            </fieldset>
-                                            <fieldset className="my-4">
+                                            <fieldset className="mb-4">
+                                                <p>Agreaga un Tag</p>
                                                 <TagsInput
-                                                    inputProps={{ className: 'react-tagsinput-input ', placeholder: 'Agreaga un Tag' }}
+                                                    inputProps={{ className: 'react-tagsinput-input ', placeholder: '#Tag1, #Tag2, #Tag3' }}
                                                     value={tags}
                                                     onChange={this.handleTagsChange}
                                                     onlyUnique
                                                 />
                                             </fieldset>
-                                            <fieldset className="my-4">
+                                            <Button className="btn-block my-5" variant="info" onClick={() => this.setState({ showSelectCategoryModal: true })}>
+                                                <i className={`fa fa-plus-square`}></i>&nbsp;
+                                                {(selectedCategory && !showSelectCategoryModal) ? `Categoria Seleccionada: ${selectedCategory.name}` : "Añadir Categoria"}
+                                            </Button>
+                                            {this.renderDeleteCategoryModal()}
+                                            <fieldset className="my-5">
                                                 <input type="submit" value="Guardar" className="btn btn-outline-dark btn-block" />
                                             </fieldset>
-
                                         </form>
                                     );
                                 }}
@@ -252,11 +276,12 @@ class ProductsUpload extends Component {
 function mapStateToProps(state) {
     return {
         errorMessage: state.prods.errorMessage,
-        auth: state.auth
+        auth: state.auth,
+        category: state.category
     }
 }
 
 export default compose(
     connect(mapStateToProps, actions),
-    reduxForm({ form: 'ProductsUpload' })
-)(ProductsUpload)
+    reduxForm({ form: 'ProductUpload' })
+)(ProductUpload)

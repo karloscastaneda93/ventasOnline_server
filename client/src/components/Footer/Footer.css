@@ -25,8 +25,8 @@
 }
 
 footer {
-    background: linear-gradient(59deg, #d849a2, #7b20c5);
-    color: white;
+    /* background: linear-gradient(59deg, #d849a2, #7b20c5); */
+    background: #f3f3f3;
 }
 
 footer a {
@@ -49,5 +49,5 @@ footer a:hover {
 
 .footer-middle {
     padding-top: 2.7em;
-    color: white;
+    color: #a9adb1;
 }

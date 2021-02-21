@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import * as actions from '../../actions';
 
@@ -9,7 +10,7 @@ import "./ProductPage.css";
 import TopBanner from '../TopBanner/TopBanner';
 
 const isEmpty = (obj) => {
-    for (var key in obj) {
+    for (let key in obj) {
         if (obj.hasOwnProperty(key))
             return false;
     }
@@ -35,7 +36,7 @@ class ProductPage extends Component {
                             <div className="col-md-8">
                                 <div className="product-card">
                                     <div className="product-tumb">
-                                        <img src={product.images[0]} alt="" />
+                                        {/* {<img src={product.images[0]} alt="" />} */}
                                     </div>
                                     <div className="product-details">
                                         <span className="product-catagory">{product.category}</span>
@@ -54,10 +55,6 @@ class ProductPage extends Component {
                                         }
                                         <div className="product-bottom-details">
                                             <div className="product-price"><small>{product.price}</small>{product.price}</div>
-                                            <div className="product-links">
-                                                <a href="/"><i className="fa fa-heart"></i></a>
-                                                <a href="/"><i className="fa fa-shopping-cart"></i></a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +62,9 @@ class ProductPage extends Component {
                             : null
                         }
                         {errorMessage &&
-                            <h1>{errorMessage}</h1>
+                            <Col md={12}>
+                                <h1>{errorMessage}</h1>
+                            </Col>
                         }
                     </div>
                 </div>

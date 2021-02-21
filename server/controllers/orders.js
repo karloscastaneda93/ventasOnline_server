@@ -14,7 +14,7 @@ module.exports = {
             const order = await Order.find();
             res.status(200).json({ order });
         } catch (error) {
-            res.status(404).json({ error })
+            res.status(500).json({ error })
         }
     },
 
@@ -35,7 +35,7 @@ module.exports = {
 
             await newOrder.save();
 
-            res.status(200).json({ success: true});
+            res.status(201).json({ success: true});
         } catch (error) {
             res.status(500).json({
                 error: {

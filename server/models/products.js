@@ -6,11 +6,14 @@ const productSchema = new Schema({
     title: String,
     description: String,
     images: [Object],
-    color: String,
-    size: String,
     price: Number,
     category: String,
-    stock: Boolean
+    stock: Boolean,
+    tags: [String],
+    attributes: {
+        color: String,
+        size: String
+    }
 });
 
 const Product = mongoose.model('product', productSchema);

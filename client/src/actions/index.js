@@ -25,7 +25,7 @@ export const getAllCategories = () => {
     return async dispatch => {
 		dispatch({ type: categoryConstansts.GET_ALL_CATEGORIES_REQUEST });
 		try {
-			const { data: categories } = await axios.get(`${api_base_url}/categories/getAll`);
+			const { data: categories } = await axios.get(`${api_base_url}/categories/`);
             dispatch({
                 type: categoryConstansts.GET_ALL_CATEGORIES_SUCCESS,
                 payload: categories
@@ -63,7 +63,7 @@ export const addCategory = (form) => {
 export const updateCategories = (form) => {
     return async dispatch => {
         dispatch({ type: categoryConstansts.UPDATE_CATEGORIES_REQUEST });
-        const res = await axios.post(`/category/update`, form);
+        const res = await axios.post(`/categories/update`, form);
         if (res.status === 201) {
             dispatch({ type: categoryConstansts.UPDATE_CATEGORIES_SUCCESS });
             dispatch(getAllCategories());
@@ -80,7 +80,7 @@ export const updateCategories = (form) => {
 export const deleteCategories = (ids) => {
     return async dispatch => {
         dispatch({ type: categoryConstansts.DELETE_CATEGORIES_REQUEST });
-        const res = await axios.post(`/category/delete`, {
+        const res = await axios.post(`/categories/delete`, {
             payload: {
                 ids
             }
@@ -118,7 +118,7 @@ export const uploadProduct = data => {
 export const getProducts = () => {
 	return async dispatch => {
 		try {
-			const { data: products } = await axios.get(`${api_base_url}/products`);
+			const { data: products } = await axios.get(`${api_base_url}/products?page=1&number=6`);
 			dispatch({
 				type: PRODUCTS_GET_SUCCESS,
 				payload: products

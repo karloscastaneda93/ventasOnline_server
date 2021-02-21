@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import { Card, Image } from 'react-bootstrap';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose } from 'redux'; 
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 import * as actions from '../../actions';
@@ -19,6 +19,11 @@ class SignIn extends Component {
 		super(props);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.responseFacebook = this.responseFacebook.bind(this);
+		document.body.classList.add("signup");
+	}
+
+	componentWillUnmount(){
+		document.body.classList.remove("signup");
 	}
 
 	async onSubmit(formData) {
@@ -65,13 +70,13 @@ class SignIn extends Component {
 											render={renderProps => (
 												<button style={{ marginRight: 15 }} className="col-12 btn btn-primary" onClick={renderProps.onClick}><i className="fab fa-facebook-f"></i>&nbsp;&nbsp;Entrar</button>
 											)}
+											cookie={true}
 											fields="name,email,picture"
 											callback={this.responseFacebook}
 											cssClass="btn btn-block btn-outline-info"
 										/>
 									</div>
 								</div>
-								<br />
 								<hr />
 								<div className="col">
 										<div className="text-center">
@@ -105,13 +110,11 @@ class SignIn extends Component {
 											</div> : null}
 										<div className="text-center">
 											<button type="submit" className="col-12 btn btn-primary my-3">Entrar</button>
-											<a className="col-12 text-xl-center hover" href="#">Olvide mi Contraseña</a>
+											<a className="col-12 text-xl-center hover" href="/reset-password">Olvide mi Contraseña</a>
 										</div>
 									</form>
 								</div>
-								<br />
 								<hr />
-								<br />
 								<SignUpWithHistory/>
 							</Card.Body>
 						</Card>

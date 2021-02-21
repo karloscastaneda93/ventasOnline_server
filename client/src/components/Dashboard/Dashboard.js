@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SwipeableViews from 'react-swipeable-views';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 import TopBanner from '../TopBanner/TopBanner';
 import Products from '../Products/Products';
@@ -15,12 +15,21 @@ import * as actions from '../../actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+function notJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 class Dashboard extends Component {
     state = {
         index: 0
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getAllCategories();
     }
 
@@ -36,24 +45,35 @@ class Dashboard extends Component {
         });
     };
 
-    setTab(e){
+    setTab(e) {
         this.setState({
-            index:parseInt(e),
+            index: parseInt(e),
         });
     }
 
     render() {
         const { index } = this.state;
+        const { auth: { user } } = this.props;
+        const name = user ? (notJson(user) ? JSON.parse(user).name : user.name) : "";
+
         return (
             <div className="dashboard">
                 <header className="main-header">
-                    <TopBanner text={'Bienvenido'} />
-                    <Tabs className="d-flex justify-content-center" defaultActiveKey="0" activeKey={index} variant="tabs" onSelect={this.setTab.bind(this)}>
-                        <Tab eventKey="0" title="Ordenes"/>
-                        <Tab eventKey="1" title="Productos"/>
-                        <Tab eventKey="2" title="Clientes"/>
-                        <Tab eventKey="3" title="Categorias"/>
-                    </Tabs>
+                    <TopBanner text={`Hola ${name}`} />
+                    <Nav fill variant="tabs" defaultActiveKey="0" activeKey={index} onSelect={this.setTab.bind(this)}>
+                        <Nav.Item>
+                            <Nav.Link eventKey="0"><i className="fas fa-file-alt mr-2"></i>Ordenes</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="1"><i className="fas fa-tags mr-2"></i>Productos</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="2"><i className="fas fa-users mr-2"></i>Clientes</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="3"><i className="fas fa-th mr-2"></i>Categorias</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
                 </header>
                 <br />
                 <div className="container app">

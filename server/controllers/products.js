@@ -1,5 +1,4 @@
 const Product = require('../models/products');
-const mongoose = require('mongoose');
 
 const isEmptyObject = (obj) => {
     return !Object.keys(obj).length;
@@ -8,29 +7,25 @@ const isEmptyObject = (obj) => {
 module.exports = {
     upload: async (req, res, next) => {
         try {
-            const { title, price, type, category, tags } = req.value.body;
-            let pathImages = [];
-
-            if (req.files && req.files.length) {
+            const { title, price, category, tags } = req.value.body;
+            const images = [];
+            
+            if (req.file) {
                 const fullUrl = 'http://localhost:5000/images/';
-                req.files.forEach(({ filename }) => {
-                    pathImages.push(fullUrl + filename);
-                });
+                images.push(fullUrl + req.file.filename);
             }
 
             const newProduct = new Product({
-                id: new mongoose.Types.ObjectId(),
                 title,
                 price,
-                type,
                 category,
                 tags,
-                images: pathImages
+                images
             });
 
             await newProduct.save();
 
-            res.status(200).json({ product: newProduct });
+            res.status(201).json({ product: newProduct });
         } catch (error) {
             res.status(500).json({
                 error: {
@@ -40,12 +35,11 @@ module.exports = {
             });
         }
     },
-    getAll: async (req, res, next) => {
-        try {
-            const products = await Product.find();
-            res.status(200).json({ products });
-        } catch (error) {
-            res.status(404).json({ error })
+    getAll: (req, res, next) => {
+        if (res.paginatedResults && !isEmptyObject(res.paginatedResults.results)) {
+            res.status(200).json({ products: res.paginatedResults });
+        } else {
+            res.status(204).send();
         }
     },
     getById: async (req, res, next) => {
@@ -58,8 +52,8 @@ module.exports = {
             } else {
                 let error = new Error();
                 error.status = "There was an error getting that ID";
-                error.statusCode = 404;
-                res.status(404).json({ error });
+                error.statusCode = 500;
+                res.status(500).json({ error });
             }
         } catch (err) {
             let error = new Error();

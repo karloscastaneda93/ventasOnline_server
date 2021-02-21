@@ -66,7 +66,7 @@ const UpdateCategoriesModal = (props) => {
             {(!checkedArray.length && !expandedArray.length) ?
                 <Row>
                     <Col>
-                        <h6>Nada para editar</h6>
+                        <h6>Nada por aqui, selecciona alguna Categoria para continuar.</h6>
                     </Col>
                 </Row>
                 : null

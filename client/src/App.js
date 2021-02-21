@@ -6,16 +6,17 @@ import {
 	Switch
 } from "react-router-dom";
 
+import Sidebar from "./components/Sidebar/Sidebar";
+
 import axios from 'axios';
 
 import store from "./store";
 
 import "./App.css";
 
-import Header from "./components/Header/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
 import NotFound from "./components/NotFound/NotFound";
-import ProductsUpload from "./components/ProductsUpload/ProductsUpload";
+import ProductUpload from "./components/ProductUpload/ProductUpload";
 import ProductPage from "./components/ProductPage/ProductPage";
 import SignIn from "./components/SignIn/SignIn";
 import Footer from "./components/Footer/Footer";
@@ -40,18 +41,17 @@ class App extends Component {
 			// Provider: wraps the React application and makes the Redux state available to all container components in the application’s hierarchy
 			<Provider store={store}>
 				<Router>
-					{!isNotFoundPage && <Header />}
-					<div style={{ minHeight: '85vh' }}>
+					<Sidebar>
 						<Switch>
 							<Route exact path="/" component={authGuard(Dashboard)} />
-							<Route path="/products/upload" component={authGuard(ProductsUpload)} />
+							<Route path="/product/upload" component={authGuard(ProductUpload)} />
 							<Route path="/product/:id" component={authGuard(ProductPage)} />
 							<Route path="/iniciar-sesion" component={authGuard(SignIn)} />
 							<Route path="*">
 								<NotFound onNotFound={this.handleNotFound} />
 							</Route>
 						</Switch>
-					</div>
+					</Sidebar>
 					{!isNotFoundPage && <Footer />}
 				</Router>
 			</Provider>

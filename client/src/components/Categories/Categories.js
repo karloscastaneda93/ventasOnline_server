@@ -7,6 +7,8 @@ import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import * as actions from '../../actions';
 
+import { createCategoryList, renderCategories } from "../../utils/common";
+
 import UpdateCategoriesModal from './components/UpdateCategoriesModal';
 import AddCategoryModal from './components/AddCategoryModal';
 import Modal from '../../components/UI/Modal/Modal';
@@ -51,32 +53,6 @@ const Categories = (props) => {
     }
 
     const handleShow = () => setShow(true);
-
-    const renderCategories = (categories) => {
-        const myCategories = [];
-        categories.map((item, index) => {
-            myCategories.push({
-                label: item.name,
-                value: item._id,
-                children: item.children.length > 0 && renderCategories(item.children)
-            });
-        });
-        return myCategories;
-    }
-
-    const createCategoryList = (categories, options = []) => {
-        categories.map((item, index) => {
-            options.push({
-                value: item._id,
-                name: item.name,
-                parentId: item.parentId
-            });
-            if (item.children.length > 0) {
-                createCategoryList(item.children, options)
-            }
-        });
-        return options;
-    }
 
     const updateCategory = () => {
         updateCheckedAndExpandedCategories();
@@ -189,8 +165,8 @@ const Categories = (props) => {
                         <h2 className="our-product">Categorias</h2>
                     </Col>
                 </Row>
-                <hr/>
-                <br/>
+                <hr />
+                <br />
                 <Row>
                     <Col md={12}>
                         <CheckboxTree
@@ -209,19 +185,15 @@ const Categories = (props) => {
                         />
                     </Col>
                 </Row>
-                <hr/>
-                <br/>
+                <hr />
+                <br />
                 <Row>
                     <Col md={12}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div className="actionBtnContainer">
-                                <a onClick={handleShow}><i className={`fa fa-plus-square`}></i> Añadir</a>
-                                <a onClick={deleteCategory}><i className={`fa fa-minus-square`}></i> Borrar</a>
-                                <a onClick={updateCategory}><i className={`fa fa-edit`}></i> Editar</a>
-                            </div>
-
+                        <div className="d-flex justify-content-start">
+                            <div className="categories-buton mr-2" onClick={handleShow}><i className={`fa fa-plus-square`}></i> Añadir</div>
+                            <div className="categories-buton mr-2" onClick={deleteCategory}><i className={`fa fa-minus-square`}></i> Borrar</div>
+                            <div className="categories-buton mr-2" onClick={updateCategory}><i className={`fa fa-edit`}></i> Editar</div>
                         </div>
-
                     </Col>
                 </Row>
             </Container>

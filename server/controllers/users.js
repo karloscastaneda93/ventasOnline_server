@@ -4,11 +4,15 @@ const mongoose = require('mongoose');
 const { JWT_SECRET } = require('../config/keys');
 
 signToken = user => {
+    const date = new Date();
+
+    console.log(date);
+
     return JWT.sign({
         iss: 'ventasOnline_app',
         sub: user._id,
-        iat: new Date().getTime(),
-        exp: new Date().setDate(new Date().getDate() + 1)
+        iat: date.getTime(),
+        exp: date.setHours(date.getHours() + 4)
     }, JWT_SECRET);
 }
 
