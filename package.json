@@ -1,13 +1,11 @@
 {
-  "name": "ventasonline_app",
+  "name": "ventasonline_server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "nodemon server.js"
   },
   "author": "Carlos Castaneda Aispuro",
   "license": "MIT",
@@ -30,11 +28,6 @@
     "passport-facebook-token": "^4.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-facebook-login": "^4.1.1",
-    "react-router": "^5.2.0",
-    "react-swipeable-routes": "^0.8.0",
     "slugify": "^1.4.6",
     "sweetalert2": "^10.13.0"
   },

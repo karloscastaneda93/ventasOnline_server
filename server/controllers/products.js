@@ -9,7 +9,7 @@ module.exports = {
         try {
             const { title, price, category, tags } = req.value.body;
             const images = [];
-            
+
             if (req.file) {
                 const fullUrl = 'http://localhost:5000/images/';
                 images.push(fullUrl + req.file.filename);

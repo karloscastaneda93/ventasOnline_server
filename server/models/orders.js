@@ -1,10 +1,9 @@
-const { string } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-    id: Schema.Types.ObjectId,
-    client: {
+	id: Schema.Types.ObjectId,
+	client: {
 		id: {
 			type: String
 		},
@@ -15,10 +14,10 @@ const orderSchema = new Schema({
 			type: String
 		}
 	},
-    products: [String],
-    status: String,
-    total: Number,
-    recolector: String
+	products: [String],
+	status: String,
+	total: Number,
+	recolector: String
 
 });
 

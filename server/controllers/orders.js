@@ -8,7 +8,7 @@ const isEmptyObject = (obj) => {
 }
 
 module.exports = {
-    
+
     getAll: async (req, res, next) => {
         try {
             const order = await Order.find();
@@ -19,11 +19,11 @@ module.exports = {
     },
 
     create: async (req, res, next) => {
-        
+
         try {
-            const { client, products, total, recolector  } = req.value.body;
-  
-            
+            const { client, products, total, recolector } = req.value.body;
+
+
             console.log(req.value.body);
             const newOrder = new Order({
                 _id: new mongoose.Types.ObjectId(),
@@ -35,7 +35,7 @@ module.exports = {
 
             await newOrder.save();
 
-            res.status(201).json({ success: true});
+            res.status(201).json({ success: true });
         } catch (error) {
             res.status(500).json({
                 error: {
@@ -45,5 +45,5 @@ module.exports = {
             });
         }
     },
-    
+
 }

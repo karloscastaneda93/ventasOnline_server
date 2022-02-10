@@ -6,13 +6,13 @@ const { JWT_SECRET } = require('../config/keys');
 signToken = user => {
     const date = new Date();
 
-    console.log(date);
+    console.log(user);
 
     return JWT.sign({
         iss: 'ventasOnline_app',
         sub: user._id,
         iat: date.getTime(),
-        exp: date.setHours(date.getHours() + 4)
+        exp: Math.floor(Date.now() / 1000) + (60 * 60)
     }, JWT_SECRET);
 }
 
@@ -34,7 +34,7 @@ module.exports = {
             if (foundUser) {
                 // Let's merge them?
                 foundUser.methods.push('local');
-                foundUser.local = { _id: new mongoose.Types.ObjectId(),name, email, password, facebook };
+                foundUser.local = { _id: new mongoose.Types.ObjectId(), name, email, password, facebook };
                 await foundUser.save();
                 // Generate the token
                 const token = signToken(foundUser);
@@ -133,7 +133,7 @@ module.exports = {
     },
     dashboard: async (req, res, next) => {
         res.json({
-            user:req.user
+            user: req.user
         });
     },
     checkAuth: async (req, res, next) => {

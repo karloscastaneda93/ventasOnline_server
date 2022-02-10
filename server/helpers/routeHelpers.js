@@ -14,9 +14,9 @@ module.exports = {
             try {
 
                 const options = {
-                    sort: { 
+                    sort: {
                         [order_by]: order_direction, // sort by
-                    }, 
+                    },
                     limit: number, // page size
                     skip: startIndex //page index
                 };
@@ -39,7 +39,7 @@ module.exports = {
 
     validateBody: (schema) => {
         return (req, res, next) => {
-            const { tags } = req.body;
+            const { body: { tags } } = req;
             if (tags) {
                 req.body.tags = [tags];
             }
