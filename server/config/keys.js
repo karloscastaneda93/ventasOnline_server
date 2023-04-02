@@ -1,10 +1,10 @@
 module.exports = {
-	mongoURI: "mongodb://localhost/ventasOnline_DB", //process.env.MONGO_URI
-	JWT_SECRET: "vent@5onlin3_S3cret_fUk1ng_sTRing_42069", //process.env.JWT_SECRET
+	mongoURI: process.env.MONGO_URI,
+	JWT_SECRET: process.env.JWT_SECRET,
 	oauth: {
 		facebook: {
-			clientID: '776669173200188', //process.env.FB_CLIENT_ID
-			clientSecret: '6aafc8c24e62e72fc765352960a96b52' //process.env.FB_CLIENT_SECRET
+			clientID: process.env.FB_CLIENT_ID,
+			clientSecret: process.env.FB_CLIENT_SECRET
 		}
 	}
 };
